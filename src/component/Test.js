@@ -78,17 +78,18 @@ export default function Test() {
                 </Button>
             </Box>
 
-            {balance.map((item) => (
-                <div key={item.response.account_number}>
-                    <p>
-                        Balance Amount :
-                        <span className="balance">{item.response.account_balance}</span>
-                    </p>
-                </div>
-            ))}
 
             {lists.map((list) => (
                 <div key={list.account_number}>
+                    <h2>Halo, {list.response.first_name} {list.response.last_name}</h2>
+                    {balance.map((item) => (
+                        <div key={item.response.account_number}>
+                            <span>
+                                Balance Amount :
+                                <span className="balance">{item.response.account_balance}</span>
+                            </span>
+                        </div>
+                    ))}
                     {list.status === "unpaid" ? (
                         <div className="state">
                             <div className="state-text">
@@ -97,8 +98,9 @@ export default function Test() {
                                     <span className="complete"> {list.status}</span>
                                 </p>
                             </div>
-                            <h4>{billing}</h4>
+                            <h4>Kode Billing Anda : {billing}</h4>
                             <Payment />
+
                         </div>
                     ) : (
                         <div>

@@ -10,6 +10,7 @@ import FormControl from "@mui/material/FormControl"
 function PaymentList() {
     return (
         <FormControl className="payment-list">
+            <h2>Payment Method</h2>
             <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
                 defaultValue="ovo"
