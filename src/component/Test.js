@@ -19,6 +19,8 @@ export default function Test() {
     const [lists, setLists] = React.useState([])
     const [balance, setBalance] = React.useState([])
     const [billing, setBilling] = React.useState("")
+    const [open, setOpen] = React.useState(false);
+
     const baseUrl = "http://127.0.0.1:8000/beta?account_number="
     const balanceUrl = "http://127.0.0.1:8000/balance?account_number="
 
@@ -52,6 +54,25 @@ export default function Test() {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    //fetch data tables
+
+    const [dataTable, setDataTable] = React.useState([])
+
+    const baseUrlHistory = "http://127.0.0.1:8000/report?account_number="
+
+    const urlHistoryTrx = baseUrlHistory + value
+
+    const fetchDataTable = async () => {
+        const response =
+            await fetch(urlHistoryTrx)
+                .then((data) => 
+                     data.json()
+                )
+        setOpen(true)                
+        setDataTable(response[0].data)
+        
     }
 
     const generateBilling = () => {
@@ -102,11 +123,6 @@ export default function Test() {
     onClose: PropTypes.func.isRequired,
     };
 
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
     const handleClose = () => {
         setOpen(false);
     };
@@ -132,7 +148,7 @@ export default function Test() {
                     Search
                 </Button>
                 {/* Button open table dialog */}
-                <Button variant="outlined" onClick={handleClickOpen}>
+                <Button variant="outlined" onClick={fetchDataTable}>
                     Histori Transaksi
                 </Button>
                 {/* Dialog COntent */}
@@ -142,14 +158,14 @@ export default function Test() {
                     open={open}
                 >
                     <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                    Modal title
+                        Riwayat Transaksi
                     </BootstrapDialogTitle>
                     <DialogContent dividers>
-                        <Table />
+                        <Table dataTable={dataTable}/>
                     </DialogContent>
                     <DialogActions>
                     <Button autoFocus onClick={handleClose}>
-                        Save changes
+                        Tutup
                     </Button>
                     </DialogActions>
                 </BootstrapDialog>

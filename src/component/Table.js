@@ -4,15 +4,7 @@ import MUIDataTable from 'mui-datatables';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import data_history_trx from '../data/data-history-trx.json';
 
-function Table() {
-
-  const [dataTable, setData] = useState([])
-
-  useEffect(() => {
-    setData(data_history_trx)
-
-   }, []);
-
+function Table({dataTable}) {
 
   const columns =  [{
     name: "tahun",
@@ -57,7 +49,7 @@ function Table() {
       MuiToolbar: {
         styleOverrides: {
           root: {
-            backgroundColor: '#0d6efd',
+            backgroundColor: 'lightgray',
           },
         },
       },
@@ -67,6 +59,7 @@ function Table() {
   return (
     <div id='table-container'>
       <ThemeProvider theme={getMuiTheme()}>
+        {console.log(dataTable)}
         <MUIDataTable
           title={"User History Transaction"}
           data={dataTable}
