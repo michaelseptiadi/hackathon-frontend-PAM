@@ -2,11 +2,13 @@ import * as React from "react"
 import { useEffect } from "react"
 import Box from "@mui/material/Box"
 import TextField from "@mui/material/TextField"
+import Button from "@mui/material/Button"
 
 export default function Test() {
     const [value, setValue] = React.useState("")
     const [lists, setLists] = React.useState([])
-    const baseUrl = "http://127.0.0.1:8000/data?account_number=ACC20220723042126424"
+    const [billing, setBilling] = React.useState("")
+    const baseUrl = "http://127.0.0.1:8000/data?account_number="
 
     const url = baseUrl + value
 
@@ -24,29 +26,47 @@ export default function Test() {
         }
     }
 
+    const generateBilling = () => {
+        setBilling(+new Date())
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        fetchData()
+        generateBilling()
+    }
+
     return (
-        <Box
-            component="form"
-            sx={{
-                "& > :not(style)": { m: 1, width: "25ch" },
-            }}
-            noValidate
-            autoComplete="off"
-        >
-            <TextField
-                id="outlined-basic"
-                sx={{ m: 1 }}
-                label="Outlined"
-                variant="outlined"
-                onChange={(e) => setValue(e.target.value)}
-            />
+        <div className="form">
+            <Box
+                component="form"
+                sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                }}
+                noValidate
+                autoComplete="off"
+            >
+                <TextField
+                    id="outlined-basic"
+                    sx={{ m: 1 }}
+                    label="Account Number"
+                    variant="outlined"
+                    onChange={(e) => setValue(e.target.value)}
+                />
+                <Button variant="contained" onClick={handleSubmit}>
+                    Search
+                </Button>
+            </Box>
             {lists.map((list) => (
-                <div>
-                    <p>{list.unit_number}</p>
+                <div className="state">
+                    <p>{list.province}</p>
+                    <p>{billing}</p>
                 </div>
             ))}
-
-            <button onClick={fetchData}>Search</button>
-        </Box>
+        </div>
     )
 }
