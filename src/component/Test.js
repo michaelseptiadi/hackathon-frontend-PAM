@@ -9,7 +9,7 @@ export default function Test() {
     const [value, setValue] = React.useState("")
     const [lists, setLists] = React.useState([])
     const [billing, setBilling] = React.useState("")
-    const baseUrl = "http://127.0.0.1:8000/data?account_number="
+    const baseUrl = "http://127.0.0.1:8000/beta?account_number="
 
     const url = baseUrl + value
 
