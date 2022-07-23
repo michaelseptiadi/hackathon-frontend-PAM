@@ -66,8 +66,13 @@ export default function Test() {
                 <div>
                     {list.status === "unpaid" ? (
                         <div className="state" key={list.account_number}>
-                            <p>Status pembayaran anda: {list.status}</p>
-                            <h4>{billing}</h4>
+                            <div className="state-text">
+                                <p>
+                                    Status pembayaran anda:{" "}
+                                    <span className="complete">{list.status}</span>
+                                </p>
+                                <h4>{billing}</h4>
+                            </div>
                             <Payment />
                         </div>
                     ) : (

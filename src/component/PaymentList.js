@@ -1,10 +1,11 @@
 import React from "react"
 import ovo from "../image/ovo.png"
+import bank from "../image/bank.png"
+import indomaret from "../image/indomaret.png"
 import Radio from "@mui/material/Radio"
 import RadioGroup from "@mui/material/RadioGroup"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import FormControl from "@mui/material/FormControl"
-import FormLabel from "@mui/material/FormLabel"
 
 function PaymentList() {
     return (
@@ -21,11 +22,11 @@ function PaymentList() {
                 </div>
                 <div className="list-item">
                     <FormControlLabel value="bank" control={<Radio />} label="Transfer Bank" />
-                    <img src={ovo} alt="OVO" className="icon" />
+                    <img src={bank} alt="OVO" className="icon" />
                 </div>
                 <div className="list-item">
                     <FormControlLabel value="indomaret" control={<Radio />} label="Indomaret" />
-                    <img src={ovo} alt="OVO" className="icon" />
+                    <img src={indomaret} alt="OVO" className="icon" width={200} />
                 </div>
             </RadioGroup>
         </FormControl>
