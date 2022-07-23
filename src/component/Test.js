@@ -38,6 +38,7 @@ export default function Test() {
                 })
                 .then((data) => {
                     setBalance(data)
+                    console.log(data)
                 })
         } catch (error) {
             console.log(error)
@@ -47,11 +48,6 @@ export default function Test() {
     const generateBilling = () => {
         setBilling(+new Date())
     }
-
-    useEffect(() => {
-        fetchBalance()
-        fetchData()
-    })
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -85,7 +81,7 @@ export default function Test() {
             {balance.map((item) => (
                 <div key={item.response.account_number}>
                     <p>
-                        Balance Amount :{" "}
+                        Balance Amount :
                         <span className="balance">{item.response.account_balance}</span>
                     </p>
                 </div>
@@ -97,11 +93,11 @@ export default function Test() {
                         <div className="state">
                             <div className="state-text">
                                 <p>
-                                    Status pembayaran anda:{" "}
-                                    <span className="complete">{list.status}</span>
+                                    Status pembayaran anda :
+                                    <span className="complete"> {list.status}</span>
                                 </p>
-                                <h4>{billing}</h4>
                             </div>
+                            <h4>{billing}</h4>
                             <Payment />
                         </div>
                     ) : (

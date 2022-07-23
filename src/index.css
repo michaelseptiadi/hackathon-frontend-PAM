@@ -38,12 +38,6 @@ body {
     height: auto;
 }
 
-.form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .state {
     text-align: center;
     font-size: 1.5rem;
