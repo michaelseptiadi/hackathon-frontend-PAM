@@ -17,10 +17,13 @@ import Table from './Table';
 export default function Test() {
     const [value, setValue] = React.useState("")
     const [lists, setLists] = React.useState([])
+    const [balance, setBalance] = React.useState([])
     const [billing, setBilling] = React.useState("")
-    const baseUrl = "http://127.0.0.1:8000/data?account_number="
+    const baseUrl = "http://127.0.0.1:8000/beta?account_number="
+    const balanceUrl = "http://127.0.0.1:8000/balance?account_number="
 
     const url = baseUrl + value
+    const getBalance = balanceUrl + value
 
     const fetchData = async () => {
         try {
@@ -36,18 +39,30 @@ export default function Test() {
         }
     }
 
+    const fetchBalance = async () => {
+        try {
+            await fetch(getBalance)
+                .then((response) => {
+                    return response.json()
+                })
+                .then((data) => {
+                    setBalance(data)
+                    console.log(data)
+                })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const generateBilling = () => {
         setBilling(+new Date())
     }
 
-    useEffect(() => {
-        fetchData()
-    }, [])
-
     const handleSubmit = (event) => {
         event.preventDefault()
-        fetchData()
         generateBilling()
+        fetchBalance()
+        fetchData()
     }
 
     const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -139,21 +154,37 @@ export default function Test() {
                     </DialogActions>
                 </BootstrapDialog>
             </Box>
+
+            {balance.map((item) => (
+                <div key={item.response.account_number}>
+                    <p>
+                        Balance Amount :
+                        <span className="balance">{item.response.account_balance}</span>
+                    </p>
+                </div>
+            ))}
+
             {lists.map((list) => (
-                <div>
+                <div key={list.account_number}>
                     {list.status === "unpaid" ? (
-                        <div className="state" key={list.account_number}>
+                        <div className="state">
                             <div className="state-text">
                                 <p>
-                                    Status pembayaran anda:{" "}
-                                    <span className="complete">{list.status}</span>
+                                    Status pembayaran anda :
+                                    <span className="complete"> {list.status}</span>
                                 </p>
-                                <h4>{billing}</h4>
                             </div>
+                            <h4>{billing}</h4>
                             <Payment />
                         </div>
                     ) : (
-                        <p>Tagihan sudah dibayar</p>
+                        <div>
+                            <p>Tagihan sudah dibayar</p>
+                            <p>
+                                Balance Amount :
+                                <span className="complete">{list.response.account_balance}</span>
+                            </p>
+                        </div>
                     )}
                 </div>
             ))}
