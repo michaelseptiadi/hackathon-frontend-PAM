@@ -1,5 +1,6 @@
 import * as React from "react"
 import { useEffect } from "react"
+import Payment from "./Payment"
 import Box from "@mui/material/Box"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
@@ -62,9 +63,16 @@ export default function Test() {
                 </Button>
             </Box>
             {lists.map((list) => (
-                <div className="state">
-                    <p>{list.province}</p>
-                    <p>{billing}</p>
+                <div>
+                    {list.status === "unpaid" ? (
+                        <div className="state" key={list.account_number}>
+                            <p>Status pembayaran anda: {list.status}</p>
+                            <h4>{billing}</h4>
+                            <Payment />
+                        </div>
+                    ) : (
+                        <p>Tagihan sudah dibayar</p>
+                    )}
                 </div>
             ))}
         </div>

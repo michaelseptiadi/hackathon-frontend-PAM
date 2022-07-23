@@ -4,6 +4,7 @@ body {
         "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: aqua;
 }
 .app {
     display: flex;
@@ -11,10 +12,48 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
+    margin-top: 50px;
 }
 
 .state {
     text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.payment {
+    text-align: center;
+}
+
+.payment-method {
+    background-color: aliceblue;
+    width: 50%;
+}
+
+.list-item {
+    padding: 12px;
+    text-align: left;
+    background-color: cadetblue;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    border-radius: 12px;
+}
+
+.payment-list {
+    width: 50%;
+    background-color: white;
+    border-radius: 25px;
+}
+
+.radio-group {
+    padding: 50px;
+}
+.icon {
+    width: 64px;
+    height: auto;
+    padding-right: 50px;
 }
 
 code {
