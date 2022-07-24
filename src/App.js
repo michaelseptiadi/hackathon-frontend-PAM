@@ -1,6 +1,5 @@
 import Test from "./component/Test"
 import Header from "./component/Header"
-import CheckData from "./component/checkData"
 import "./App.css"
 
 function App() {
@@ -8,7 +7,6 @@ function App() {
         <div className="App" >
             <Header />
             <Test />
-            <CheckData/>
         </div>
     )
 }

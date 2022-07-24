@@ -15,11 +15,11 @@ function Table({dataTable}) {
     label: "Bulan",
     },
     {
-    name: "status",
-    label: "Status",
+    name: "tipe_transaksi",
+    label: "Tipe Transaksi",
     },
     {
-    name: "jumlah bayar",
+    name: "jumlah_bayar",
     label: "Jumlah Bayar",
     },
     {

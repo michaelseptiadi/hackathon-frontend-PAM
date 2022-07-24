@@ -1,9 +1,6 @@
 import * as React from "react"
-import { useEffect } from "react"
-import Payment from "./Payment"
 import Box from "@mui/material/Box"
 import TextField from "@mui/material/TextField"
-import Button from "@mui/material/Button"
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
@@ -11,11 +8,23 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import PaymentList from "./PaymentList"
+import Button from "@mui/material/Button"
+import swal from 'sweetalert';
 import Table from './Table';
+import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
+import HeroImage from '../image/cover.png';
+import '../styles/test.css'
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import imageCover from "../image/cover.png"
+import CurrencyFormat from 'react-currency-format';
 
 export default function Test() {
     const [value, setValue] = React.useState("")
+    const [status, setStatus] = React.useState("unpaid")
     const [lists, setLists] = React.useState([])
     const [balance, setBalance] = React.useState([])
     const [billing, setBilling] = React.useState("")
@@ -72,6 +81,7 @@ export default function Test() {
                 )
         setOpen(true)                
         setDataTable(response[0].data)
+        console.log(response[0].data)
         
     }
 
@@ -127,85 +137,107 @@ export default function Test() {
         setOpen(false);
     };
 
+    const handlePayment = (event) => {
+        event.preventDefault()
+        swal("Good job!", "Your payment is success", "success");
+        setStatus("paid")
+    }
+
     return (
         <div className="form">
-            <Box
-                component="form"
-                sx={{
-                    "& > :not(style)": { m: 1, width: "25ch" },
-                }}
-                noValidate
-                autoComplete="off"
-            >
-                <TextField
-                    id="outlined-basic"
-                    sx={{ m: 1 }}
-                    label="Account Number"
-                    variant="outlined"
-                    onChange={(e) => setValue(e.target.value)}
-                />
-                <Button variant="contained" onClick={handleSubmit}>
-                    Search
-                </Button>
-                {/* Button open table dialog */}
-                <Button variant="outlined" onClick={fetchDataTable}>
-                    Histori Transaksi
-                </Button>
-                {/* Dialog COntent */}
-                <BootstrapDialog
-                    onClose={handleClose}
-                    aria-labelledby="customized-dialog-title"
-                    open={open}
-                >
-                    <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                        Riwayat Transaksi
-                    </BootstrapDialogTitle>
-                    <DialogContent dividers>
-                        <Table dataTable={dataTable}/>
-                    </DialogContent>
-                    <DialogActions>
-                    <Button autoFocus onClick={handleClose}>
-                        Tutup
-                    </Button>
-                    </DialogActions>
-                </BootstrapDialog>
-            </Box>
+            
+                        <Card sx={{ display: 'flex', m:5 }}>
+                            <CardMedia
+                                component="img"
+                                sx={{ width: 500 }}
+                                image={imageCover}
+                                alt="cover"
+                            />
+                            <Box sx={{ display: 'flex', flexDirection: 'column', ml:10, mt:5, height: 1000, width: 800 }}>
+                                <CardContent sx={{ flex: '1 0 auto' }}>
+                                    <Stack spacing={2}>
+                                        <TextField
+                                            id="outlined-basic"
+                                            // sx={{ m: 1 }}
+                                            fullWidth
+                                            label="Account Number"
+                                            variant="outlined"
+                                            onChange={(e) => setValue(e.target.value)}
+                                        />
+                                        <Stack direction="row">
+
+                                            <Button sx={{ mr:1 }} variant="contained" onClick={handleSubmit}>
+                                                Search
+                                            </Button>
+                                            {/* Button open table dialog */}
+                                            <Button variant="outlined" onClick={fetchDataTable}>
+                                                Histori Transaksi
+                                            </Button>
+                                        </Stack>
+                                    </Stack>
+                                    {/* Dialog COntent */}
+                                    <BootstrapDialog
+                                        onClose={handleClose}
+                                        aria-labelledby="customized-dialog-title"
+                                        open={open}
+                                    >
+                                        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+                                            Riwayat Transaksi
+                                        </BootstrapDialogTitle>
+                                        <DialogContent dividers>
+                                            <Table dataTable={dataTable}/>
+                                        </DialogContent>
+                                        <DialogActions>
+                                        <Button autoFocus onClick={handleClose}>
+                                            Tutup
+                                        </Button>
+                                        </DialogActions>
+                                    </BootstrapDialog>
+
+                                    {lists.map((list) => (
+                                        <div key={list.account_number}>
+                                            <h2>Halo, {list.response.first_name} {list.response.last_name}</h2>
+                                            {balance.map((item) => (
+                                                <div key={item.response.account_number}>
+                                                    <span>
+                                                        Balance Amount : 
+                                                        <span className="balance"><CurrencyFormat value={item.response.account_balance} displayType={'text'} thousandSeparator={true} prefix={'Rp.'} /></span>
+                                                    </span>
+                                                </div>
+                                            ))}
+                                            {status === "unpaid" ? (
+                                                <div className="state" key={list.account_number}>
+                                                    <div className="state-text">
+                                                        <p>
+                                                            Status pembayaran anda :
+                                                            <span className="complete"> {list.status}</span>
+                                                        </p>
+                                                    </div>
+                                                    <h4>Kode Billing Anda : {billing}</h4>
+                                                    <div className="payment">
+                                    
+                                                        <PaymentList />
+                                                        <br/>
+                                                        <Button variant="contained" className="submit-btn" onClick={handlePayment}>
+                                                                Pay Billing
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    <p>Tagihan sudah dibayar</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </CardContent>
+                            </Box>
+                        </Card>
+                        
+                
 
 
-            {lists.map((list) => (
-                <div key={list.account_number}>
-                    <h2>Halo, {list.response.first_name} {list.response.last_name}</h2>
-                    {balance.map((item) => (
-                        <div key={item.response.account_number}>
-                            <span>
-                                Balance Amount :
-                                <span className="balance">{item.response.account_balance}</span>
-                            </span>
-                        </div>
-                    ))}
-                    {list.status === "unpaid" ? (
-                        <div className="state">
-                            <div className="state-text">
-                                <p>
-                                    Status pembayaran anda :
-                                    <span className="complete"> {list.status}</span>
-                                </p>
-                            </div>
-                            <h4>Kode Billing Anda : {billing}</h4>
-                            <Payment />
-
-                        </div>
-                    ) : (
-                        <div>
-                            <p>Tagihan sudah dibayar</p>
-                            <p>
-                                Balance Amount :
-                                <span className="complete">{list.response.account_balance}</span>
-                            </p>
-                        </div>
-                    )}
-                </div>
-            ))}
+            
         </div>
     )
 }
